@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     sprite.speed_x = 2;
     sprite.speed_y = 2;
 
+    /* Initializing everything */
     if (allegro_init() != 0)
     {
         allegro_message("Error on initializing Allegro");
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    /* Load bitmap, set palette and prepare the buffer */
     sprite.bmp = load_bitmap("logok.pcx", palette);
     if (!sprite.bmp)
     {
@@ -48,13 +50,12 @@ int main(int argc, char *argv[])
     }
     set_palette(palette);
     buffer = create_bitmap(SCREEN_WIDTH, SCREEN_HEIGHT);
-    
     rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, 0);
  
+    /* The action happens in this loop */
     while (!key[KEY_ESC])
     {   
-        rectfill(buffer, sprite.x, sprite.y, sprite.x + sprite.bmp->w, sprite.y + sprite.bmp->h, 0);
-        /* rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, 0); */
+        rectfill(buffer, sprite.x, sprite.y, sprite.x + sprite.bmp->w, sprite.y + sprite.bmp->h, 0); /* Clean-up the area with sprite dimensions */
         if (key[KEY_RIGHT] && sprite.x + sprite.bmp->w < SCREEN_W)
             sprite.x++;
         if (key[KEY_DOWN] && sprite.y + sprite.bmp->h < SCREEN_H)
@@ -64,11 +65,11 @@ int main(int argc, char *argv[])
         if (key[KEY_UP] && sprite.y >= 0)
             sprite.y--;
         draw_sprite(buffer, sprite.bmp, sprite.x, sprite.y);
-        vsync();
+        vsync(); /* Wait for VSync and then blit buffer to the screen */
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_W - 1, SCREEN_H - 1);
-        /* show_video_bitmap(buffer); */
     }
 
+    /* Clean-up and exit */
     destroy_bitmap(sprite.bmp);
     destroy_bitmap(buffer);
     remove_timer();
