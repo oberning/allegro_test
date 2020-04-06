@@ -57,13 +57,13 @@ int main(int argc, char *argv[])
     {   
         rectfill(buffer, sprite.x, sprite.y, sprite.x + sprite.bmp->w, sprite.y + sprite.bmp->h, 0); /* Clean-up the area with sprite dimensions */
         if (key[KEY_RIGHT] && sprite.x + sprite.bmp->w < SCREEN_W)
-            sprite.x++;
+            sprite.x += sprite.speed_x;
         if (key[KEY_DOWN] && sprite.y + sprite.bmp->h < SCREEN_H)
-            sprite.y++;
+            sprite.y += sprite.speed_y;
         if (key[KEY_LEFT] && sprite.x >= 0)
-            sprite.x--;
+            sprite.x -= sprite.speed_x;
         if (key[KEY_UP] && sprite.y >= 0)
-            sprite.y--;
+            sprite.y -= sprite.speed_y;
         draw_sprite(buffer, sprite.bmp, sprite.x, sprite.y);
         vsync(); /* Wait for VSync and then blit buffer to the screen */
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_W - 1, SCREEN_H - 1);
